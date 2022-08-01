@@ -7,3 +7,6 @@
 [submodule "DatabaseInitializer"]
 	path = DatabaseInitializer
 	url = https://git.swmgit.org/swm-13-main/13_swm43/databaseinitializer.git
+[submodule "login_test"]
+	path = login_test
+	url = https://git.swmgit.org/swm-13-main/13_swm43/login_test.git
