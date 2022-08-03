@@ -1,6 +1,19 @@
 version: '3.9'
 
 services:
+  react:
+    container_name: react
+    build:
+      context: login_test
+      dockerfile: Dockerfile.dev
+    expose:
+      - 80
+    networks:
+      - nginx-network
+    volumes:
+      - /usr/src/app/node_modules
+      - './login_test:/usr/src/app'
+    stdin_open: true
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
@@ -13,10 +26,11 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      - NGINX_HOST=muinjijun.ml
+      - NGINX_HOST=gogetter.kr
     restart: unless-stopped
     depends_on:
-      - authenticationserver.api
+      - authserver
+      - springboot
     networks:
       - nginx-network
 
@@ -26,7 +40,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
 
-  authenticationserver.api:
+  authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
     expose:
@@ -39,16 +53,26 @@ services:
     networks:
       - nginx-network
 
-  taxi.webapi:
-    container_name: taxiapi
-    image: ${DOCKER_REGISTRY-}taxiwebapi
-    build:
-      context: .
-      dockerfile: taxi.Webapi/Dockerfile
+  #taxi.webapi:
+  #  container_name: taxiapi
+  #  image: ${DOCKER_REGISTRY-}taxiwebapi
+  #  build:
+  #    context: .
+  #    dockerfile: taxi.Webapi/Dockerfile
+  #  expose:
+  #    - 80
+  #  depends_on:
+  #      - mysql
+  #  networks:
+  #    - nginx-network
+  springboot:
+    container_name: springboot
     expose:
-      - 80
-    depends_on:
-        - mysql
+      - 8080
+    image: adoptopenjdk:11-jdk-hotspot
+    volumes:
+      - './ApplicationServer/java.jar:/java.jar'
+    command: ["java","-jar","/java.jar"]
     networks:
       - nginx-network
 
@@ -65,19 +89,7 @@ services:
     networks:
       - nginx-network
 
-  react:
-    container_name: react
-    build:
-      context: login_test
-      dockerfile: Dockerfile.dev
-    expose:
-      - 80
-    networks:
-      - nginx-network
-    volumes:
-      - /usr/src/app/node_modules
-      - './login_test:/usr/src/app'
-    stdin_open: true
+ 
 
 networks:
   nginx-network:

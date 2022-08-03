@@ -26,10 +26,11 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      - NGINX_HOST=muinjijun.ml
+      - NGINX_HOST=gogetter.kr
     restart: unless-stopped
     depends_on:
-      - authenticationserver.api
+      - authserver
+      - springboot
     networks:
       - nginx-network
 
@@ -39,7 +40,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
 
-  authenticationserver.api:
+  authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
     expose:
@@ -52,16 +53,26 @@ services:
     networks:
       - nginx-network
 
-  taxi.webapi:
-    container_name: taxiapi
-    image: ${DOCKER_REGISTRY-}taxiwebapi
-    build:
-      context: './taxi.Webapi'
-      dockerfile: Dockerfile
+  # taxi.webapi:
+  #   container_name: taxiapi
+  #   image: ${DOCKER_REGISTRY-}taxiwebapi
+  #   build:
+  #     context: './taxi.Webapi'
+  #     dockerfile: Dockerfile
+  #   expose:
+  #     - 80
+  #   depends_on:
+  #       - mysql
+  #   networks:
+  #     - nginx-network
+  springboot:
+    container_name: springboot
     expose:
-      - 80
-    depends_on:
-        - mysql
+      - 8080
+    image: adoptopenjdk:11-jdk-hotspot
+    volumes:
+      - './ApplicationServer/java.jar:/java.jar'
+    command: ["java","-jar","/java.jar"]
     networks:
       - nginx-network
 
