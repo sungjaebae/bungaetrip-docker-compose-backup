@@ -72,10 +72,9 @@ services:
     container_name: springboot
     expose:
       - 8080
-    image: adoptopenjdk:11-jdk-hotspot
-    volumes:
-      - './ApplicationServer/java.jar:/java.jar'
-    command: ["java","-jar","/java.jar"]
+    build:
+      context: ApplicationServer
+      dockerfile: Dockerfile
     networks:
       - nginx-network
 

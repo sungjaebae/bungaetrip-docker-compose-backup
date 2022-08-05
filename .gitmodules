@@ -10,3 +10,6 @@
 [submodule "login_test"]
 	path = login_test
 	url = https://git.swmgit.org/swm-13-main/13_swm43/login_test.git
+[submodule "ApplicationServer"]
+	path = ApplicationServer
+	url = https://git.swmgit.org/swm-13-main/13_swm43/go_getter_business.git
