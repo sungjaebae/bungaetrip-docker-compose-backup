@@ -14,6 +14,9 @@ services:
       - /usr/src/app/node_modules
       - './login_test:/usr/src/app'
     stdin_open: true
+    networks:
+      - nginx-network
+      
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
