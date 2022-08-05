@@ -46,6 +46,9 @@ services:
   authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
     expose:
       - 80
     build:
@@ -70,11 +73,16 @@ services:
   #     - nginx-network
   springboot:
     container_name: springboot
+    environment:
+      - spring_profiles_active=Development
     expose:
       - 8080
     build:
       context: ApplicationServer
       dockerfile: Dockerfile
+    depends_on:
+        - mysql
+        - authserver
     networks:
       - nginx-network
 
@@ -87,6 +95,8 @@ services:
         - MYSQL_PASSWORD=PiI4I65otC04Ut
     expose:
       - 3306
+    ports:
+      - "3306:3306"
     image: 'mysql:8.0.29'
     networks:
       - nginx-network
