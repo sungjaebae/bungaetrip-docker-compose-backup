@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.4' # for staging server(oracle cloud)
 
 services:
   react:
@@ -8,15 +8,13 @@ services:
       dockerfile: Dockerfile.dev
     expose:
       - 80
-    networks:
-      - nginx-network
     volumes:
       - /usr/src/app/node_modules
       - './login_test:/usr/src/app'
     stdin_open: true
     networks:
       - nginx-network
-      
+
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
@@ -29,7 +27,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      - NGINX_HOST=gogetter.kr
+      - NGINX_HOST=dev.gogetter.kr
     restart: unless-stopped
     depends_on:
       - authserver
@@ -38,7 +36,7 @@ services:
       - nginx-network
 
   certbot:
-    image: certbot/certbot
+    image: certbot/certbot:arm64v8-latest
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -100,8 +98,6 @@ services:
     image: 'mysql:8.0.29'
     networks:
       - nginx-network
-
-  
 
 networks:
   nginx-network:
