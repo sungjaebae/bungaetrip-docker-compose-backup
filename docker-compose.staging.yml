@@ -1,5 +1,6 @@
 version: '3.4' # for staging server(oracle cloud)
-
+volumes:
+  node_modules:
 services:
   react:
     container_name: react
@@ -9,8 +10,8 @@ services:
     expose:
       - 80
     volumes:
-      - /usr/src/app/node_modules
       - './login_test:/usr/src/app'
+      - node_modules:/usr/src/app/node_modules
     stdin_open: true
     networks:
       - nginx-network
