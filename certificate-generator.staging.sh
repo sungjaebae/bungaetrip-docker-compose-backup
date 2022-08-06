@@ -1,0 +1,33 @@
+#!/bin/bash
+
+SSL_Path=/etc/letsencrypt/live/dev.gogetter.kr
+domain=dev.gogetter.kr
+
+mkdir -p ./certbot/conf/live/$domain
+
+docker-compose -f docker-compose.staging.yml run --rm --entrypoint "\
+    openssl req -x509 -nodes \
+    -days 365 \
+    -newkey rsa:2048 \
+    -keyout '$SSL_Path/privkey.pem' \
+    -out '$SSL_Path/fullchain.pem' \
+    -subj '/CN=localhost'" certbot
+
+docker-compose -f docker-compose.staging.yml up --force-recreate -d nginx
+
+docker-compose -f docker-compose.staging.yml run --rm --entrypoint "\
+  rm -rf /etc/letsencrypt/live/$domain && \
+  rm -rf /etc/letsencrypt/archive/$domain && \
+  rm -rf /etc/letsencrypt/renewal/$domain.conf" certbot
+
+docker-compose -f docker-compose.staging.yml  run --rm --entrypoint "\
+    certbot certonly --webroot -w /var/www/certbot \
+    --email hsm0156@gmail.com \
+    -d dev.gogetter.kr \
+    -d www.dev.gogetter.kr \
+    --rsa-key-size 4096 \
+    --agree-tos \
+    --no-eff-email \
+    --force-renewal" certbot
+
+docker-compose -f docker-compose.staging.yml exec nginx nginx -s reload
