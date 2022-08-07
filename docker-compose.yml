@@ -1,5 +1,4 @@
 version: '3.9' #for visual studio
-
 services:
   react:
     container_name: react
@@ -8,12 +7,12 @@ services:
       dockerfile: Dockerfile.dev
     expose:
       - 80
+    volumes:
+      - './login_test:/usr/src/app'
+      - /usr/src/app/node_modules
+    stdin_open: true
     networks:
       - nginx-network
-    volumes:
-      - /usr/src/app/node_modules
-      - './login_test:/usr/src/app'
-    stdin_open: true
 
   nginx:
     container_name: nginx
@@ -27,7 +26,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      - NGINX_HOST=gogetter.kr
+      - NGINX_HOST=localhost
     restart: unless-stopped
     depends_on:
       - authserver
@@ -44,11 +43,11 @@ services:
   authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
-    expose:
-      - 80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+    expose:
+      - 80
     build:
       context: .
       dockerfile: AuthenticationServer.API/Dockerfile
@@ -57,18 +56,18 @@ services:
     networks:
       - nginx-network
 
-  #taxi.webapi:
-  #  container_name: taxiapi
-  #  image: ${DOCKER_REGISTRY-}taxiwebapi
-  #  build:
-  #    context: .
-  #    dockerfile: taxi.Webapi/Dockerfile
-  #  expose:
-  #    - 80
-  #  depends_on:
-  #      - mysql
-  #  networks:
-  #    - nginx-network
+  # taxi.webapi:
+  #   container_name: taxiapi
+  #   image: ${DOCKER_REGISTRY-}taxiwebapi
+  #   build:
+  #     context: .
+  #     dockerfile: taxi.Webapi/Dockerfile
+  #   expose:
+  #     - 80
+  #   depends_on:
+  #       - mysql
+  #   networks:
+  #     - nginx-network
   springboot:
     container_name: springboot
     environment:
@@ -93,6 +92,8 @@ services:
         - MYSQL_PASSWORD=PiI4I65otC04Ut
     expose:
       - 3306
+    ports:
+      - "3306:3306"
     image: 'mysql:8.0.29'
     networks:
       - nginx-network
