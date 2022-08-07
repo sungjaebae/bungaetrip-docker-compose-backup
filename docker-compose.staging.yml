@@ -44,7 +44,7 @@ services:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_URLS=http://+:80
     expose:
       - 80
@@ -71,7 +71,7 @@ services:
   springboot:
     container_name: springboot
     environment:
-      - spring_profiles_active=Development
+      - spring_profiles_active=Staging
     expose:
       - 8080
     build:
@@ -86,10 +86,10 @@ services:
   mysql:
     container_name: mysql
     environment:
-        - MYSQL_ROOT_PASSWORD=PiI4I65otC04Ut
-        - MYSQL_DATABASE=gogetters
-        - MYSQL_USER=admin
-        - MYSQL_PASSWORD=PiI4I65otC04Ut
+      - MYSQL_ROOT_PASSWORD=PiI4I65otC04Ut
+      - MYSQL_DATABASE=gogetters
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=PiI4I65otC04Ut
     expose:
       - 3306
     ports:
@@ -97,6 +97,8 @@ services:
     image: 'mysql:8.0.29'
     networks:
       - nginx-network
+    volumes:
+        - './mysql:/var/lib/mysql'
 
 networks:
   nginx-network:
