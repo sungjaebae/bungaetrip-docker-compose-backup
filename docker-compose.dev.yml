@@ -1,4 +1,4 @@
-version: "3.4" #for production server(azure VM)
+version: "3.4" #for local pc(win will use docker-compose by visual studio, mac)
 services:
   nginx:
     container_name: nginx
@@ -12,7 +12,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - NGINX_HOST=gogetter.kr
+      - NGINX_HOST=slowtest.ml
     restart: unless-stopped
     depends_on:
       - authserver
@@ -30,7 +30,7 @@ services:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     expose:
       - 80
@@ -45,7 +45,7 @@ services:
   springboot:
     container_name: springboot
     environment:
-      - spring_profiles_active=prod
+      - spring_profiles_active=Development
     expose:
       - 8080
     build:
@@ -54,6 +54,21 @@ services:
     depends_on:
       - mysql
       - authserver
+    networks:
+      - nginx-network
+
+  mysql:
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=PiI4I65otC04Ut
+      - MYSQL_DATABASE=gogetters
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=PiI4I65otC04Ut
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    image: "mysql:8.0.29"
     networks:
       - nginx-network
 
