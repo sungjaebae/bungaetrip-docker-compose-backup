@@ -19,7 +19,9 @@ services:
       - springboot
     networks:
       - nginx-network
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      
   certbot:
     image: certbot/certbot
     volumes:
