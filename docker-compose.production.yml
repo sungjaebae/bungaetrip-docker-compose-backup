@@ -39,8 +39,6 @@ services:
     build:
       context: AuthenticationServer.API
       dockerfile: Dockerfile
-    depends_on:
-      - mysql
     networks:
       - nginx-network
 
@@ -54,7 +52,6 @@ services:
       context: ApplicationServer
       dockerfile: Dockerfile
     depends_on:
-      - mysql
       - authserver
     networks:
       - nginx-network
