@@ -1,32 +1,18 @@
-version: '3.4' #for local pc(win, mac)
+version: "3.4" #for local pc(win will use docker-compose by visual studio, mac)
 services:
-  react:
-    container_name: react
-    build:
-      context: login_test
-      dockerfile: Dockerfile.dev
-    expose:
-      - 80
-    volumes:
-      - './login_test:/usr/src/app'
-      - /usr/src/app/node_modules
-    stdin_open: true
-    networks:
-      - nginx-network
-      
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
     volumes:
-        - './nginx/default.conf:/etc/nginx/conf.d/default.conf'
-        - './nginx/templates:/etc/nginx/templates'
-        - ./certbot/conf:/etc/letsencrypt
-        - ./certbot/www:/var/www/certbot
+      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/templates:/etc/nginx/templates"
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     environment:
-      - NGINX_HOST=localhost
+      - NGINX_HOST=slowtest.ml
     restart: unless-stopped
     depends_on:
       - authserver
@@ -52,22 +38,10 @@ services:
       context: AuthenticationServer.API
       dockerfile: Dockerfile
     depends_on:
-        - mysql
+      - mysql
     networks:
       - nginx-network
 
-  # taxi.webapi:
-  #   container_name: taxiapi
-  #   image: ${DOCKER_REGISTRY-}taxiwebapi
-  #   build:
-  #     context: './taxi.Webapi'
-  #     dockerfile: Dockerfile
-  #   expose:
-  #     - 80
-  #   depends_on:
-  #       - mysql
-  #   networks:
-  #     - nginx-network
   springboot:
     container_name: springboot
     environment:
@@ -78,23 +52,23 @@ services:
       context: ApplicationServer
       dockerfile: Dockerfile
     depends_on:
-        - mysql
-        - authserver
+      - mysql
+      - authserver
     networks:
       - nginx-network
 
   mysql:
     container_name: mysql
     environment:
-        - MYSQL_ROOT_PASSWORD=PiI4I65otC04Ut
-        - MYSQL_DATABASE=gogetters
-        - MYSQL_USER=admin
-        - MYSQL_PASSWORD=PiI4I65otC04Ut
+      - MYSQL_ROOT_PASSWORD=PiI4I65otC04Ut
+      - MYSQL_DATABASE=gogetters
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=PiI4I65otC04Ut
     expose:
       - 3306
     ports:
       - "3306:3306"
-    image: 'mysql:8.0.29'
+    image: "mysql:8.0.29"
     networks:
       - nginx-network
 
