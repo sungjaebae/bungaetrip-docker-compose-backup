@@ -1,4 +1,5 @@
-version: "3.4" #for local pc(win will use docker-compose by visual studio, mac)
+version: "3.4"
+
 services:
   nginx:
     container_name: nginx
@@ -12,36 +13,36 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - NGINX_HOST=slowtest.ml
+      - NGINX_HOST=localhost
     restart: unless-stopped
     depends_on:
       - authserver
-      - springboot
-    networks:
-      - nginx-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-
   authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
+    #image: ${DOCKER_REGISTRY-}authserver
+    build:
+      context: .
+      dockerfile: AuthenticationServer.API/Dockerfile
+      #dockerfile: Authserver/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - AppSettings__URL=https://localhost
     expose:
       - 80
-    build:
-      context: AuthenticationServer.API
-      dockerfile: Dockerfile
     depends_on:
       - mysql
-    networks:
-      - nginx-network
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   springboot:
     container_name: springboot
     environment:
@@ -54,9 +55,8 @@ services:
     depends_on:
       - mysql
       - authserver
-    networks:
-      - nginx-network
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   mysql:
     container_name: mysql
     environment:
@@ -64,14 +64,15 @@ services:
       - MYSQL_DATABASE=gogetters
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=PiI4I65otC04Ut
-    expose:
-      - 3306
+      - LC_ALL=C.UTF-8
     ports:
       - "3306:3306"
-    image: "mysql:8.0.29"
-    networks:
-      - nginx-network
-
-networks:
-  nginx-network:
-    driver: bridge
+    volumes:
+      - "./mysql:/var/lib/mysql"
+      - "./my.cnf:/etc/mysql/my.cnf"
+    image: "mysql:8.0.30-debian"
+    command: >
+      bash -c "
+      chmod 644 /etc/mysql/my.cnf
+      && /entrypoint.sh mysqld
+      "

@@ -2,14 +2,6 @@
 	path = AuthenticationServer.API
 	url = https://git.swmgit.org/swm-13-main/13_swm43/authserver.git
 	branch = master
-[submodule "taxi.Webapi"]
-	path = taxi.Webapi
-	url = https://git.swmgit.org/swm-13-main/13_swm43/taxiapimock.git
-	branch = master
-[submodule "DatabaseInitializer"]
-	path = DatabaseInitializer
-	url = https://git.swmgit.org/swm-13-main/13_swm43/databaseinitializer.git
-	branch = master
 [submodule "login_test"]
 	path = login_test
 	url = https://git.swmgit.org/swm-13-main/13_swm43/login_test.git
