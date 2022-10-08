@@ -3,11 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>f5ef0664-6f5e-4742-bda5-f18e6b5c692a</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <ProjectGuid>bdbf31e0-f440-4f9f-9de9-ea8c9406b865</ProjectGuid>
+    <DockerLaunchAction>None</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>authenticationserver.api</DockerServiceName>
-	  <DockerComposeUpArguments>--build</DockerComposeUpArguments>
+    <DockerServiceName>authserver</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
