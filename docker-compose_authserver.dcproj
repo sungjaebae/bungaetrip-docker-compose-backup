@@ -3,11 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>04365fac-f92c-4f34-a6ac-e1c3c20d6644</ProjectGuid>
+    <ProjectGuid>bdbf31e0-f440-4f9f-9de9-ea8c9406b865</ProjectGuid>
     <DockerLaunchAction>None</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>authserver</DockerServiceName>
-    <DockerComposeProjectName>gogetters</DockerComposeProjectName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

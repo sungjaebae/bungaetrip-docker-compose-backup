@@ -29,11 +29,9 @@ services:
   authserver:
     container_name: authserver
     image: ${DOCKER_REGISTRY-}authenticationserverapi
-    #image: ${DOCKER_REGISTRY-}authserver
     build:
-      context: .
-      dockerfile: AuthenticationServer.API/Dockerfile
-      #dockerfile: Authserver/Dockerfile
+      context: AuthenticationServer.API
+      dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
