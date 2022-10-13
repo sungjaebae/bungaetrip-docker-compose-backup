@@ -454,6 +454,13 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 ## 배성재 추가
-certbot/*
+certbot/conf/accounts
+certbot/conf/archive
+certbot/conf/csr
+certbot/conf/keys
+certbot/conf/live
+certbot/conf/renewal
+certbot/conf/renewal-hooks
+
 mysql
 
