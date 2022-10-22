@@ -12,7 +12,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - NGINX_HOST=slowtest.ml
+      - NGINX_HOST=fasttest.ml
     restart: unless-stopped
     depends_on:
       - authserver
@@ -21,6 +21,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   certbot:
+    container_name: certbot
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt

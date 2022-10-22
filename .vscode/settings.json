@@ -1,4 +1,4 @@
 {
-    "socatrunner.address": "ubuntu@52.78.212.66",
-    "socatrunner.keypath": "C:/keys/saryuKeypair.pem"
+    "socatrunner.address": "ubuntu@152.70.236.228",
+    "socatrunner.keypath": "C:/keys/ssh-key-2022-09-24.key"
 }

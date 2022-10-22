@@ -1,4 +1,4 @@
-$domain="slowtest.ml"
+$domain="fasttest.ml"
 $SSL_Path="/etc/letsencrypt/live/$domain"
 
 mkdir -p ./certbot/conf/live/$domain

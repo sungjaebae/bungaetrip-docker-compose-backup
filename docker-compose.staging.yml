@@ -21,6 +21,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   certbot:
+    container_name: certbot
     image: certbot/certbot:arm64v8-latest
     volumes:
       - ./certbot/conf:/etc/letsencrypt
