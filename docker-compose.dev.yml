@@ -15,11 +15,11 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - NGINX_HOST=slowtest.ml
+      - NGINX_HOST=localhost
     restart: unless-stopped
     depends_on:
       - authserver
-    entrypoint: "./wait-for.sh authserver:80 -- /docker-entrypoint.sh nginx -g 'daemon off;'"
+    #entrypoint: "./wait-for.sh authserver:80 -- /docker-entrypoint.sh nginx -g 'daemon off;'"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -57,7 +57,7 @@ services:
     depends_on:
       - mysql
       - authserver
-    entrypoint: "./wait-for.sh authserver:80 -- java -jar /java.jar"
+    entrypoint: "./wait-for.sh authserver:80 -- java -jar /usr/src/app/app.jar"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mysql:
