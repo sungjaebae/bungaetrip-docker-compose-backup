@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     depends_on:
       - authserver
-    #entrypoint: "./wait-for.sh authserver:80 -- /docker-entrypoint.sh nginx -g 'daemon off;'"
+    #entrypoint: sh -c "./wait-for.sh authserver:80 -- /docker-entrypoint.sh nginx -g 'daemon off;'"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -42,7 +42,7 @@ services:
       - 80
     depends_on:
       - mysql
-    entrypoint: "./wait-for.sh mysql:3306 -- dotnet AuthenticationServer.API.dll"
+    entrypoint: sh -c "./wait-for.sh mysql:3306 -- dotnet AuthenticationServer.API.dll"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   springboot:
@@ -57,7 +57,7 @@ services:
     depends_on:
       - mysql
       - authserver
-    entrypoint: "./wait-for.sh authserver:80 -- java -jar /usr/src/app/app.jar"
+    entrypoint: sh -c "./wait-for.sh authserver:80 -- java -jar /java.jar"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mysql:

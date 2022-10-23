@@ -2,7 +2,9 @@ version: "3.4" # for staging server(oracle cloud)
 services:
   nginx:
     container_name: nginx
-    image: nginx:stable-alpine
+    build:
+      context: nginx
+      dockerfile: Dockerfile
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/templates:/etc/nginx/templates"
@@ -40,6 +42,7 @@ services:
       - 80
     depends_on:
       - mysql
+    entrypoint: sh -c "./wait-for.sh mysql:3306 -- dotnet AuthenticationServer.API.dll"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   springboot:
@@ -54,6 +57,7 @@ services:
     depends_on:
       - mysql
       - authserver
+    entrypoint: sh -c "./wait-for.sh authserver:80 -- java -jar /java.jar"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 

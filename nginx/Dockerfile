@@ -3,6 +3,9 @@ FROM nginx:stable-alpine
 
 # wait-for 스크립트 복사
 COPY wait-for.sh ./
+RUN chmod 755 ./wait-for.sh
+RUN sed -i 's/\r$//' ./wait-for.sh
+
 
 # nc(netcat) 커맨드 설치
 RUN apk add netcat-openbsd
