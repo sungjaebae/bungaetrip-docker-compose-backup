@@ -57,7 +57,7 @@ services:
     depends_on:
       - mysql
       - authserver
-    entrypoint: sh -c "./wait-for.sh authserver:80 -- java -jar /java.jar"
+    entrypoint: sh -c "./wait-for.sh authserver:80 -- java -jar /usr/src/app/app.jar"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mysql:
