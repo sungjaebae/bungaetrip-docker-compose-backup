@@ -30,6 +30,20 @@ server {
 
 server {
     listen 443 ssl;
+    server_name bungaetrip.com;
+    ssl_certificate     /etc/letsencrypt/live/bungaetrip.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/bungaetrip.com/privkey.pem;
+
+    include             /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
+    root /data;
+    location / {
+        try_files $uri $uri/ $uri.html =404;
+    }
+}
+
+server {
+    listen 443 ssl;
     server_name ${NGINX_HOST};
 
     ssl_certificate     /etc/letsencrypt/live/${NGINX_HOST}/fullchain.pem;
