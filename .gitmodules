@@ -10,7 +10,3 @@
 	path = ApplicationServer
 	url = https://git.swmgit.org/swm-13-main/13_swm43/go_getter_business.git
 	branch = develop
-[submodule "authserverv2"]
-	path = Authserver
-	url = https://git.swmgit.org/swm-13-main/13_swm43/authserverv2
-	branch = master
