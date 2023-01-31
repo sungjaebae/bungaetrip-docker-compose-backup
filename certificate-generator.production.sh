@@ -2,31 +2,31 @@
 domain=gogetter.kr
 SSL_Path=/etc/letsencrypt/live/$domain
 
-mkdir -p ./certbot/conf/live/$domain
+# mkdir -p ./certbot/conf/live/$domain
 
-docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
-    openssl req -x509 -nodes \
-    -days 365 \
-    -newkey rsa:2048 \
-    -keyout '$SSL_Path/privkey.pem' \
-    -out '$SSL_Path/fullchain.pem' \
-    -subj '/CN=localhost'" certbot
+# docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
+#     openssl req -x509 -nodes \
+#     -days 365 \
+#     -newkey rsa:2048 \
+#     -keyout '$SSL_Path/privkey.pem' \
+#     -out '$SSL_Path/fullchain.pem' \
+#     -subj '/CN=localhost'" certbot
 
 
-#### bungaetrip.com 인증서 받기
+# #### bungaetrip.com 인증서 받기
 domain2=bungaetrip.com
 SSL_Path2=/etc/letsencrypt/live/$domain2
 
-mkdir -p ./certbot/conf/live/$domain2
+# mkdir -p ./certbot/conf/live/$domain2
 
-docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
-    openssl req -x509 -nodes \
-    -days 365 \
-    -newkey rsa:2048 \
-    -keyout '$SSL_Path2/privkey.pem' \
-    -out '$SSL_Path2/fullchain.pem' \
-    -subj '/CN=localhost'" certbot
-docker-compose -f docker-compose.production.yml up --force-recreate -d nginx
+# docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
+#     openssl req -x509 -nodes \
+#     -days 365 \
+#     -newkey rsa:2048 \
+#     -keyout '$SSL_Path2/privkey.pem' \
+#     -out '$SSL_Path2/fullchain.pem' \
+#     -subj '/CN=localhost'" certbot
+# docker-compose -f docker-compose.production.yml up --force-recreate -d nginx
 
 docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
   rm -rf /etc/letsencrypt/live/$domain && \

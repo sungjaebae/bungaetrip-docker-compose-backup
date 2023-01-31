@@ -8,7 +8,7 @@ services:
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/templates/nginx.conf.template.production:/etc/nginx/templates/nginx.conf.template"
-      - "../bungjaetrip-landing-page/out:/data"
+      - "../bungaetrip-landing-page/out:/data"
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     ports:
@@ -42,6 +42,9 @@ services:
       - ASPNETCORE_URLS=http://+:80
     expose:
       - 80
+    entrypoint: sh -c "./wait-for.sh nginx:80 -t 120 -- dotnet AuthenticationServer.API.dll"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   springboot:
     container_name: springboot
     environment:
@@ -54,4 +57,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - authserver
-    entrypoint: sh -c "./wait-for.sh authserver:80 -- java -jar /java.jar"
+    entrypoint: sh -c "./wait-for.sh nginx:80 -t 120 -- java -jar /java.jar"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
