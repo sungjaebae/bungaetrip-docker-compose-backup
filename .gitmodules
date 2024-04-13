@@ -1,8 +1,8 @@
 [submodule "AuthenticationServer.API"]
 	path = AuthenticationServer.API
-	url = https://github.com/gogetters-ko/bungaetrip-auth-server.git
+	url = https://github.com/sungjaebae/bungaetrip-auth-server-backup.git
 	branch = master
 [submodule "ApplicationServer"]
 	path = ApplicationServer
-	url = https://github.com/gogetters-ko/Bungaetrip-api-server.git
+	url = https://github.com/sungjaebae/bungaetrip-api-server-backup.git
 	branch = develop
